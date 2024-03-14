@@ -1,13 +1,57 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_editor_plus/image_editor_plus.dart';
+import 'package:image_editor_plus/options.dart';
+import 'package:path_provider/path_provider.dart';
 
 void main() {
   runApp(
     const MaterialApp(
-      home: ImageEditorExample(),
+      debugShowCheckedModeBanner: false,
+      home: MyEditorApp(),
     ),
   );
+}
+
+class MyEditorApp extends StatefulWidget {
+  const MyEditorApp({super.key});
+
+  @override
+  State<MyEditorApp> createState() => _MyEditorAppState();
+}
+
+class _MyEditorAppState extends State<MyEditorApp> {
+  Uint8List? imageData;
+
+  @override
+  void initState() {
+    super.initState();
+    loadAsset("image.jpg");
+  }
+
+  void loadAsset(String name) async {
+    var data = await rootBundle.load('assets/$name');
+    setState(() => imageData = data.buffer.asUint8List());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ImageEditor(
+      image: imageData,
+      blurOption: null,
+      filtersOption: null,
+      emojiOption: null,
+      flipOption: null,
+      linkOption: null,
+      rotateOption: null,
+      imagePickerOption: const ImagePickerOption(
+        captureFromCamera: true,
+        pickFromGallery: true,
+      ),
+    );
+  }
 }
 
 class ImageEditorExample extends StatefulWidget {
@@ -53,6 +97,16 @@ class _ImageEditorExampleState extends State<ImageEditorExample> {
                 MaterialPageRoute(
                   builder: (context) => ImageEditor(
                     image: imageData,
+                    blurOption: null,
+                    filtersOption: null,
+                    emojiOption: null,
+                    flipOption: null,
+                    linkOption: null,
+                    rotateOption: null,
+                    imagePickerOption: const ImagePickerOption(
+                      captureFromCamera: true,
+                      pickFromGallery: true,
+                    ),
                   ),
                 ),
               );
@@ -71,6 +125,11 @@ class _ImageEditorExampleState extends State<ImageEditorExample> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => ImageEditor(
+                    blurOption: null,
+                    filtersOption: null,
+                    emojiOption: null,
+                    flipOption: null,
+                    linkOption: null,
                     images: [
                       imageData,
                       imageData,
