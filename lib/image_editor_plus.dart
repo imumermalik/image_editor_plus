@@ -52,6 +52,7 @@ class ImageEditor extends StatelessWidget {
   final o.FlipOption? flipOption;
   final o.RotateOption? rotateOption;
   final o.TextOption? textOption;
+  final o.TextOption? linkOption;
 
   const ImageEditor({
     super.key,
@@ -68,6 +69,7 @@ class ImageEditor extends StatelessWidget {
     this.flipOption = const o.FlipOption(),
     this.rotateOption = const o.RotateOption(),
     this.textOption = const o.TextOption(),
+    this.linkOption = const o.TextOption(),
   });
 
   @override
@@ -94,6 +96,7 @@ class ImageEditor extends StatelessWidget {
         flipOption: flipOption,
         rotateOption: rotateOption,
         textOption: textOption,
+        linkOption: linkOption,
       );
     } else {
       return MultiImageEditor(
@@ -109,6 +112,7 @@ class ImageEditor extends StatelessWidget {
         flipOption: flipOption,
         rotateOption: rotateOption,
         textOption: textOption,
+        linkOption: linkOption,
       );
     }
   }
@@ -123,10 +127,10 @@ class ImageEditor extends StatelessWidget {
   static ThemeData theme = ThemeData(
     scaffoldBackgroundColor: Colors.black,
     colorScheme: const ColorScheme.dark(
-      background: Colors.black,
+      background: Colors.amber,
     ),
     appBarTheme: const AppBarTheme(
-      backgroundColor: Colors.black87,
+      backgroundColor: Colors.orange,
       iconTheme: IconThemeData(color: Colors.white),
       systemOverlayStyle: SystemUiOverlayStyle.light,
       toolbarTextStyle: TextStyle(color: Colors.white),
@@ -159,6 +163,7 @@ class MultiImageEditor extends StatefulWidget {
   final o.FlipOption? flipOption;
   final o.RotateOption? rotateOption;
   final o.TextOption? textOption;
+  final o.TextOption? linkOption;
 
   const MultiImageEditor({
     super.key,
@@ -174,6 +179,7 @@ class MultiImageEditor extends StatefulWidget {
     this.flipOption = const o.FlipOption(),
     this.rotateOption = const o.RotateOption(),
     this.textOption = const o.TextOption(),
+    this.linkOption = const o.TextOption(),
   });
 
   @override
@@ -412,6 +418,7 @@ class SingleImageEditor extends StatefulWidget {
   final o.FlipOption? flipOption;
   final o.RotateOption? rotateOption;
   final o.TextOption? textOption;
+  final o.TextOption? linkOption;
 
   const SingleImageEditor({
     super.key,
@@ -427,6 +434,7 @@ class SingleImageEditor extends StatefulWidget {
     this.flipOption = const o.FlipOption(),
     this.rotateOption = const o.RotateOption(),
     this.textOption = const o.TextOption(),
+    this.linkOption = const o.TextOption(),
   });
 
   @override
@@ -944,7 +952,7 @@ class _SingleImageEditorState extends State<SingleImageEditor> {
                         setState(() {});
                       },
                     ),
-                  if (widget.textOption != null)
+                  if (widget.linkOption != null)
                     BottomButton(
                       icon: Icons.link,
                       text: i18n('Link'),
