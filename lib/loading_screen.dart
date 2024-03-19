@@ -40,3 +40,27 @@ final scaffoldGlobalKey = GlobalKey<ScaffoldState>();
 
 @protected
 var loadingScreen = LoadingScreen(scaffoldGlobalKey);
+
+OverlayEntry? _overlayEntry;
+
+void loading(BuildContext context) {
+  if (_overlayEntry != null) return;
+  _overlayEntry = OverlayEntry(
+    builder: (context) => Container(
+      color: Colors.white.withOpacity(0.5),
+      child: Center(
+        child: CircularProgressIndicator(
+          color: Color(0xFF546FFF),
+        ),
+      ),
+    ),
+  );
+
+  Overlay.of(context).insert(_overlayEntry!);
+}
+
+void dismissLoading() {
+  if (_overlayEntry == null) return;
+  _overlayEntry?.remove();
+  _overlayEntry = null;
+}

@@ -38,7 +38,7 @@ String i18n(String sourceString) =>
 
 /// Single endpoint for MultiImageEditor & SingleImageEditor
 class ImageEditor extends StatelessWidget {
-  final dynamic image;
+  final dynamic? image;
   final List? images;
   final String? savePath;
   final int outputFormat;
@@ -130,7 +130,6 @@ class ImageEditor extends StatelessWidget {
       background: Colors.amber,
     ),
     appBarTheme: const AppBarTheme(
-      backgroundColor: Colors.orange,
       iconTheme: IconThemeData(color: Colors.white),
       systemOverlayStyle: SystemUiOverlayStyle.light,
       toolbarTextStyle: TextStyle(color: Colors.white),
@@ -220,6 +219,7 @@ class _MultiImageEditorState extends State<MultiImageEditor> {
       child: Scaffold(
         key: scaffoldGlobalKey,
         appBar: AppBar(
+          backgroundColor: const Color(0xFF546FFF),
           automaticallyImplyLeading: false,
           actions: [
             const BackButton(),
@@ -602,13 +602,35 @@ class _SingleImageEditorState extends State<SingleImageEditor> {
 
   @override
   void initState() {
+    super.initState();
     if (widget.image != null) {
       loadImage(widget.image!);
     }
 
     checkPermissions();
 
-    super.initState();
+    pickFromCamera();
+  }
+
+  Future<void> pickFromCamera() async {
+    if (await Permission.camera.isPermanentlyDenied) {
+      openAppSettings();
+    }
+
+    var image = await picker.pickImage(
+      source: ImageSource.camera,
+    );
+
+    if (image == null) {
+      Navigator.of(context).pop();
+      return null;
+    }
+    ;
+
+    loadImage(image);
+
+    layers.add(ImageLayerData(image: ImageItem(image)));
+    setState(() {});
   }
 
   double flipValue = 0;
@@ -839,7 +861,7 @@ class _SingleImageEditorState extends State<SingleImageEditor> {
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   if (widget.cropOption != null)
                     BottomButton(
@@ -1275,6 +1297,7 @@ class _SingleImageEditorState extends State<SingleImageEditor> {
   final picker = ImagePicker();
 
   Future<void> loadImage(dynamic imageFile) async {
+    loading(context);
     await currentImage.load(imageFile);
 
     layers.clear();
@@ -1284,6 +1307,8 @@ class _SingleImageEditorState extends State<SingleImageEditor> {
     ));
 
     setState(() {});
+
+    dismissLoading();
   }
 }
 
@@ -1381,6 +1406,7 @@ class _ImageCropperState extends State<ImageCropper> {
       data: ImageEditor.theme,
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: const Color(0xFF546FFF),
           actions: [
             IconButton(
               padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -1622,6 +1648,7 @@ class _ImageFiltersState extends State<ImageFilters> {
       data: ImageEditor.theme,
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: Color(0xFF546FFF),
           actions: [
             IconButton(
               padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -1916,6 +1943,7 @@ class _ImageEditorDrawingState extends State<ImageEditorDrawing> {
       data: ImageEditor.theme,
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: Color(0xFF546FFF),
           automaticallyImplyLeading: false,
           actions: [
             IconButton(
