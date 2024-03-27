@@ -634,7 +634,10 @@ class _SingleImageEditorState extends State<SingleImageEditor> {
       source: ImageSource.gallery,
     );
 
-    if (image == null) Navigator.of(context).pop();
+    if (image == null) {
+      Navigator.of(context).pop();
+      return;
+    }
 
     loadImage(image);
 
