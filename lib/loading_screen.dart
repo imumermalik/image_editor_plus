@@ -50,7 +50,7 @@ void loading(BuildContext context) {
       color: Colors.white.withOpacity(0.5),
       child: Center(
         child: CircularProgressIndicator(
-          color: Color(0xFF546FFF),
+          color: Colors.black,
         ),
       ),
     ),
