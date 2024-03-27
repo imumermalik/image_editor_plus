@@ -639,7 +639,17 @@ class _SingleImageEditorState extends State<SingleImageEditor> {
       return;
     }
 
-    loadImage(image);
+    await currentImage.load(image);
+
+    layers.clear();
+
+    layers.add(BackgroundLayerData(
+      image: currentImage,
+    ));
+
+    setState(() {});
+
+    // loadImage(image);
 
     layers.add(ImageLayerData(image: ImageItem(image)));
     setState(() {});
