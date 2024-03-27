@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_editor_plus/image_editor_plus.dart';
@@ -50,6 +48,7 @@ class _MyEditorAppState extends State<MyEditorApp> {
         captureFromCamera: true,
         pickFromGallery: true,
       ),
+      isCamera: true,
     );
   }
 }
@@ -96,6 +95,7 @@ class _ImageEditorExampleState extends State<ImageEditorExample> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => ImageEditor(
+                    isCamera: true,
                     image: imageData,
                     blurOption: null,
                     filtersOption: null,
@@ -125,6 +125,7 @@ class _ImageEditorExampleState extends State<ImageEditorExample> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => ImageEditor(
+                    isCamera: true,
                     blurOption: null,
                     filtersOption: null,
                     emojiOption: null,

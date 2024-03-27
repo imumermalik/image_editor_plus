@@ -42,6 +42,7 @@ class ImageEditor extends StatelessWidget {
   final List? images;
   final String? savePath;
   final int outputFormat;
+  final bool isCamera;
 
   final o.ImagePickerOption imagePickerOption;
   final o.CropOption? cropOption;
@@ -55,6 +56,7 @@ class ImageEditor extends StatelessWidget {
   final o.TextOption? linkOption;
 
   const ImageEditor({
+    required this.isCamera,
     super.key,
     this.image,
     this.images,
@@ -84,6 +86,7 @@ class ImageEditor extends StatelessWidget {
 
     if (image != null) {
       return SingleImageEditor(
+        isCamera: isCamera,
         image: image,
         savePath: savePath,
         imagePickerOption: imagePickerOption,
@@ -100,6 +103,7 @@ class ImageEditor extends StatelessWidget {
       );
     } else {
       return MultiImageEditor(
+        isCamera: isCamera,
         images: images ?? [],
         savePath: savePath,
         imagePickerOption: imagePickerOption,
@@ -130,6 +134,7 @@ class ImageEditor extends StatelessWidget {
       background: Colors.amber,
     ),
     appBarTheme: const AppBarTheme(
+      backgroundColor: Color(0xFF546FFF),
       iconTheme: IconThemeData(color: Colors.white),
       systemOverlayStyle: SystemUiOverlayStyle.light,
       toolbarTextStyle: TextStyle(color: Colors.white),
@@ -152,6 +157,7 @@ class MultiImageEditor extends StatefulWidget {
   final List images;
   final String? savePath;
   final int outputFormat;
+  final bool isCamera;
 
   final o.ImagePickerOption imagePickerOption;
   final o.CropOption? cropOption;
@@ -168,6 +174,7 @@ class MultiImageEditor extends StatefulWidget {
     super.key,
     this.images = const [],
     this.savePath,
+    required this.isCamera,
     this.imagePickerOption = const o.ImagePickerOption(),
     this.outputFormat = o.OutputFormat.jpeg,
     this.cropOption = const o.CropOption(),
@@ -295,6 +302,7 @@ class _MultiImageEditorState extends State<MultiImageEditor> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => SingleImageEditor(
+                                  isCamera: widget.isCamera,
                                   image: image,
                                   outputFormat: o.OutputFormat.jpeg,
                                 ),
@@ -408,6 +416,7 @@ class SingleImageEditor extends StatefulWidget {
   final dynamic image;
   final String? savePath;
   final int outputFormat;
+  final bool isCamera;
 
   final o.ImagePickerOption imagePickerOption;
   final o.CropOption? cropOption;
@@ -422,6 +431,7 @@ class SingleImageEditor extends StatefulWidget {
 
   const SingleImageEditor({
     super.key,
+    required this.isCamera,
     this.image,
     this.savePath,
     this.imagePickerOption = const o.ImagePickerOption(),
@@ -449,12 +459,12 @@ class _SingleImageEditorState extends State<SingleImageEditor> {
   PermissionStatus galleryPermission = PermissionStatus.permanentlyDenied,
       cameraPermission = PermissionStatus.permanentlyDenied;
 
-  checkPermissions() async {
-    if (widget.imagePickerOption.pickFromGallery) {
+  Future<void> checkPermissions() async {
+    if (!widget.isCamera) {
       galleryPermission = await Permission.photos.status;
     }
 
-    if (widget.imagePickerOption.captureFromCamera) {
+    if (widget.isCamera) {
       cameraPermission = await Permission.camera.status;
     }
 
@@ -608,8 +618,28 @@ class _SingleImageEditorState extends State<SingleImageEditor> {
     }
 
     checkPermissions();
+    if (widget.isCamera) {
+      pickFromCamera();
+    } else {
+      pickFromGallery();
+    }
+  }
 
-    pickFromCamera();
+  Future<void> pickFromGallery() async {
+    if (await Permission.camera.isPermanentlyDenied) {
+      openAppSettings();
+    }
+
+    var image = await picker.pickImage(
+      source: ImageSource.gallery,
+    );
+
+    if (image == null) return;
+
+    loadImage(image);
+
+    layers.add(ImageLayerData(image: ImageItem(image)));
+    setState(() {});
   }
 
   Future<void> pickFromCamera() async {
@@ -625,7 +655,6 @@ class _SingleImageEditorState extends State<SingleImageEditor> {
       Navigator.of(context).pop();
       return null;
     }
-    ;
 
     loadImage(image);
 
@@ -1648,7 +1677,7 @@ class _ImageFiltersState extends State<ImageFilters> {
       data: ImageEditor.theme,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xFF546FFF),
+          backgroundColor: const Color(0xFF546FFF),
           actions: [
             IconButton(
               padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -1943,7 +1972,7 @@ class _ImageEditorDrawingState extends State<ImageEditorDrawing> {
       data: ImageEditor.theme,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xFF546FFF),
+          backgroundColor: const Color(0xFF546FFF),
           automaticallyImplyLeading: false,
           actions: [
             IconButton(
