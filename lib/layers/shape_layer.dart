@@ -76,10 +76,6 @@ class _ShapeLayerState extends State<ShapeLayer> {
           angle: widget.layerData.rotation,
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-            decoration: BoxDecoration(
-              color: Colors.amber,
-              borderRadius: BorderRadius.circular(8),
-            ),
             child: Text(
               widget.layerData.text.toString(),
               style: TextStyle(
