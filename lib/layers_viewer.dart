@@ -5,6 +5,7 @@ import 'package:image_editor_plus/layers/background_layer.dart';
 import 'package:image_editor_plus/layers/emoji_layer.dart';
 import 'package:image_editor_plus/layers/image_layer.dart';
 import 'package:image_editor_plus/layers/link_layer.dart';
+import 'package:image_editor_plus/layers/shape_layer.dart';
 import 'package:image_editor_plus/layers/text_layer.dart';
 
 /// View stacked layers (unbounded height, width)
@@ -55,6 +56,15 @@ class LayersViewer extends StatelessWidget {
         // Emoji layer
         if (layerItem is EmojiLayerData) {
           return EmojiLayer(
+            layerData: layerItem,
+            onUpdate: onUpdate,
+            editable: editable,
+          );
+        }
+
+        // Emoji layer
+        if (layerItem is ShapeLayerData) {
+          return ShapeLayer(
             layerData: layerItem,
             onUpdate: onUpdate,
             editable: editable,

@@ -92,6 +92,10 @@ class EmojiOption {
   const EmojiOption();
 }
 
+class ShapeOption {
+  const ShapeOption();
+}
+
 class FiltersOption {
   final List<ColorFilterGenerator>? filters;
   const FiltersOption({this.filters});

@@ -24,6 +24,8 @@ class Layer {
     switch (json['type']) {
       case 'BackgroundLayer':
         return BackgroundLayerData.fromJson(json);
+      case 'ShapeLayer':
+        return ShapeLayerData.fromJson(json);
       case 'EmojiLayer':
         return EmojiLayerData.fromJson(json);
       case 'ImageLayer':
@@ -107,13 +109,13 @@ class EmojiLayerData extends Layer {
   }
 }
 
-/// Attributes used by [ImageLayer]
-class ImageLayerData extends Layer {
-  ImageItem image;
+/// Attributes used by [ShapeLayer]
+class ShapeLayerData extends Layer {
+  String text;
   double size;
 
-  ImageLayerData({
-    required this.image,
+  ShapeLayerData({
+    this.text = '',
     this.size = 64,
     super.offset,
     super.opacity,
@@ -121,9 +123,9 @@ class ImageLayerData extends Layer {
     super.scale,
   });
 
-  static ImageLayerData fromJson(Map json) {
-    var layer = ImageLayerData(
-      image: ImageItem.fromJson(json['image']),
+  static ShapeLayerData fromJson(Map json) {
+    var layer = ShapeLayerData(
+      text: json['text'],
       size: json['size'],
     );
 
@@ -134,8 +136,8 @@ class ImageLayerData extends Layer {
   @override
   Map toJson() {
     return {
-      'type': 'ImageLayer',
-      'image': image.toJson(),
+      'type': 'ShapeLayer',
+      'text': text,
       'size': size,
       ...super.toJson(),
     };
@@ -192,7 +194,42 @@ class TextLayerData extends Layer {
   }
 }
 
-/// Attributes used by [TextLayer]
+/// Attributes used by [ImageLayer]
+class ImageLayerData extends Layer {
+  ImageItem image;
+  double size;
+
+  ImageLayerData({
+    required this.image,
+    this.size = 64,
+    super.offset,
+    super.opacity,
+    super.rotation,
+    super.scale,
+  });
+
+  static ImageLayerData fromJson(Map json) {
+    var layer = ImageLayerData(
+      image: ImageItem.fromJson(json['image']),
+      size: json['size'],
+    );
+
+    layer.copyFrom(json);
+    return layer;
+  }
+
+  @override
+  Map toJson() {
+    return {
+      'type': 'ImageLayer',
+      'image': image.toJson(),
+      'size': size,
+      ...super.toJson(),
+    };
+  }
+}
+
+/// Attributes used by [LinkLayer]
 class LinkLayerData extends Layer {
   String text;
   double size;

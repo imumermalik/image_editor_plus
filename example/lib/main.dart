@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_editor_plus/image_editor_plus.dart';
 import 'package:image_editor_plus/options.dart';
-import 'package:path_provider/path_provider.dart';
 
 void main() {
   runApp(
@@ -39,11 +38,12 @@ class _MyEditorAppState extends State<MyEditorApp> {
     return ImageEditor(
       image: imageData,
       blurOption: null,
+      brushOption: null,
+      cropOption: null,
       filtersOption: null,
-      emojiOption: null,
       flipOption: null,
       linkOption: null,
-      rotateOption: null,
+
       imagePickerOption: const ImagePickerOption(
         captureFromCamera: true,
         pickFromGallery: true,

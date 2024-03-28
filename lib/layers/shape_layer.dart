@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:image_editor_plus/data/layer.dart';
 import 'package:image_editor_plus/image_editor_plus.dart';
-import 'package:image_editor_plus/modules/text_layer_overlay.dart';
+import 'package:image_editor_plus/modules/shape_layer_overlay.dart';
 
-/// Text layer
-class TextLayer extends StatefulWidget {
-  final TextLayerData layerData;
+/// Shape layer
+class ShapeLayer extends StatefulWidget {
+  final ShapeLayerData layerData;
   final VoidCallback? onUpdate;
   final bool editable;
 
-  const TextLayer({
+  const ShapeLayer({
     super.key,
     required this.layerData,
     this.onUpdate,
@@ -17,10 +17,10 @@ class TextLayer extends StatefulWidget {
   });
 
   @override
-  createState() => _TextViewState();
+  createState() => _ShapeLayerState();
 }
 
-class _TextViewState extends State<TextLayer> {
+class _ShapeLayerState extends State<ShapeLayer> {
   double initialSize = 0;
   double initialRotation = 0;
 
@@ -45,7 +45,7 @@ class _TextViewState extends State<TextLayer> {
                   context: context,
                   backgroundColor: Colors.transparent,
                   builder: (context) {
-                    return TextLayerOverlay(
+                    return ShapeLayerOverlay(
                       index: layers.indexOf(widget.layerData),
                       layer: widget.layerData,
                       onUpdate: () {
@@ -65,10 +65,8 @@ class _TextViewState extends State<TextLayer> {
                     widget.layerData.offset.dy + detail.focalPointDelta.dy,
                   );
                 } else if (detail.pointerCount == 2) {
-                  widget.layerData.size =
-                      initialSize + detail.scale * (detail.scale > 1 ? 1 : -1);
-                  // print('angle');
-                  // print(detail.rotation);
+                  widget.layerData.size = initialSize +
+                      detail.scale * 5 * (detail.scale > 1 ? 1 : -1);
                   widget.layerData.rotation = detail.rotation;
                 }
                 setState(() {});
@@ -77,21 +75,15 @@ class _TextViewState extends State<TextLayer> {
         child: Transform.rotate(
           angle: widget.layerData.rotation,
           child: Container(
-            padding: const EdgeInsets.all(64),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              decoration: BoxDecoration(
-                color: widget.layerData.background
-                    .withOpacity(widget.layerData.backgroundOpacity),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Text(
-                widget.layerData.text.toString(),
-                textAlign: widget.layerData.align,
-                style: TextStyle(
-                  color: widget.layerData.color,
-                  fontSize: widget.layerData.size,
-                ),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            decoration: BoxDecoration(
+              color: Colors.amber,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Text(
+              widget.layerData.text.toString(),
+              style: TextStyle(
+                fontSize: widget.layerData.size,
               ),
             ),
           ),

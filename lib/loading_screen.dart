@@ -48,7 +48,7 @@ void loading(BuildContext context) {
   _overlayEntry = OverlayEntry(
     builder: (context) => Container(
       color: Colors.white.withOpacity(0.5),
-      child: Center(
+      child: const Center(
         child: CircularProgressIndicator(
           color: Colors.black,
         ),

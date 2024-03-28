@@ -15,6 +15,7 @@ class LinkLayer extends StatefulWidget {
     this.editable = false,
     this.onUpdate,
   });
+
   @override
   createState() => _TextViewState();
 }

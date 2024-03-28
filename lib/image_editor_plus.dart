@@ -16,6 +16,7 @@ import 'package:image_editor_plus/data/layer.dart';
 import 'package:image_editor_plus/layers_viewer.dart';
 import 'package:image_editor_plus/loading_screen.dart';
 import 'package:image_editor_plus/modules/all_emojies.dart';
+import 'package:image_editor_plus/modules/all_shapes.dart';
 import 'package:image_editor_plus/modules/layers_overlay.dart';
 import 'package:image_editor_plus/modules/link.dart';
 import 'package:image_editor_plus/modules/text.dart';
@@ -49,6 +50,7 @@ class ImageEditor extends StatelessWidget {
   final o.BlurOption? blurOption;
   final o.BrushOption? brushOption;
   final o.EmojiOption? emojiOption;
+  final o.ShapeOption? shapeOption;
   final o.FiltersOption? filtersOption;
   final o.FlipOption? flipOption;
   final o.RotateOption? rotateOption;
@@ -67,6 +69,7 @@ class ImageEditor extends StatelessWidget {
     this.blurOption = const o.BlurOption(),
     this.brushOption = const o.BrushOption(),
     this.emojiOption = const o.EmojiOption(),
+    this.shapeOption = const o.ShapeOption(),
     this.filtersOption = const o.FiltersOption(),
     this.flipOption = const o.FlipOption(),
     this.rotateOption = const o.RotateOption(),
@@ -95,6 +98,7 @@ class ImageEditor extends StatelessWidget {
         blurOption: blurOption,
         brushOption: brushOption,
         emojiOption: emojiOption,
+        shapeOption: shapeOption,
         filtersOption: filtersOption,
         flipOption: flipOption,
         rotateOption: rotateOption,
@@ -112,6 +116,7 @@ class ImageEditor extends StatelessWidget {
         blurOption: blurOption,
         brushOption: brushOption,
         emojiOption: emojiOption,
+        shapeOption: shapeOption,
         filtersOption: filtersOption,
         flipOption: flipOption,
         rotateOption: rotateOption,
@@ -164,6 +169,7 @@ class MultiImageEditor extends StatefulWidget {
   final o.BlurOption? blurOption;
   final o.BrushOption? brushOption;
   final o.EmojiOption? emojiOption;
+  final o.ShapeOption? shapeOption;
   final o.FiltersOption? filtersOption;
   final o.FlipOption? flipOption;
   final o.RotateOption? rotateOption;
@@ -181,6 +187,7 @@ class MultiImageEditor extends StatefulWidget {
     this.blurOption = const o.BlurOption(),
     this.brushOption = const o.BrushOption(),
     this.emojiOption = const o.EmojiOption(),
+    this.shapeOption = const o.ShapeOption(),
     this.filtersOption = const o.FiltersOption(),
     this.flipOption = const o.FlipOption(),
     this.rotateOption = const o.RotateOption(),
@@ -423,6 +430,7 @@ class SingleImageEditor extends StatefulWidget {
   final o.BlurOption? blurOption;
   final o.BrushOption? brushOption;
   final o.EmojiOption? emojiOption;
+  final o.ShapeOption? shapeOption;
   final o.FiltersOption? filtersOption;
   final o.FlipOption? flipOption;
   final o.RotateOption? rotateOption;
@@ -440,6 +448,7 @@ class SingleImageEditor extends StatefulWidget {
     this.blurOption = const o.BlurOption(),
     this.brushOption = const o.BrushOption(),
     this.emojiOption = const o.EmojiOption(),
+    this.shapeOption = const o.ShapeOption(),
     this.filtersOption = const o.FiltersOption(),
     this.flipOption = const o.FlipOption(),
     this.rotateOption = const o.RotateOption(),
@@ -1001,6 +1010,29 @@ class _SingleImageEditorState extends State<SingleImageEditor> {
                         undoLayers.clear();
                         removedLayers.clear();
 
+                        layers.add(layer);
+
+                        setState(() {});
+                      },
+                    ),
+                  /// [Shape Option]
+                  if (widget.shapeOption != null)
+                    BottomButton(
+                      icon: FontAwesomeIcons.shapes,
+                      text: i18n('Shapes'),
+                      onTap: () async {
+                        ShapeLayerData? layer = await showModalBottomSheet(
+                          context: context,
+                          backgroundColor: Colors.black,
+                          builder: (BuildContext context) {
+                            return const Shapes();
+                          },
+                        );
+
+                        if (layer == null) return;
+
+                        undoLayers.clear();
+                        removedLayers.clear();
                         layers.add(layer);
 
                         setState(() {});
