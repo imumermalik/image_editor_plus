@@ -48,7 +48,7 @@ class _ShapeLayerOverlayState extends State<ShapeLayerOverlay> {
               borderRadius: BorderRadius.circular(10),
             ),
             child:
-            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Container(
                 padding: const EdgeInsets.only(left: 16),
                 child: Text(
@@ -63,7 +63,7 @@ class _ShapeLayerOverlayState extends State<ShapeLayerOverlay> {
                     thumbColor: Colors.white,
                     value: widget.layer.size,
                     min: 0.0,
-                    max: 100.0,
+                    max: 200.0,
                     onChangeEnd: (v) {
                       setState(() {
                         widget.layer.size = v.toDouble();
@@ -83,7 +83,7 @@ class _ShapeLayerOverlayState extends State<ShapeLayerOverlay> {
                 TextButton(
                   onPressed: () {
                     setState(() {
-                     // widget.layer.backgroundOpacity = 0.5;
+                      // widget.layer.backgroundOpacity = 0.5;
                       widget.onUpdate();
                     });
                   },
@@ -113,7 +113,7 @@ class _ShapeLayerOverlayState extends State<ShapeLayerOverlay> {
                     pickMode: PickMode.color,
                     colorListener: (int value) {
                       setState(() {
-                      //  widget.layer.color = Color(value);
+                        widget.layer.color = Color(value);
                         widget.onUpdate();
                       });
                     },
@@ -122,7 +122,7 @@ class _ShapeLayerOverlayState extends State<ShapeLayerOverlay> {
                 TextButton(
                   onPressed: () {
                     setState(() {
-                    //  widget.layer.color = Colors.black;
+                      widget.layer.color = Colors.white;
                       widget.onUpdate();
                     });
                   },
@@ -150,10 +150,10 @@ class _ShapeLayerOverlayState extends State<ShapeLayerOverlay> {
                     pickMode: PickMode.color,
                     colorListener: (int value) {
                       setState(() {
-                        // widget.layer.background = Color(value);
-                        // if (widget.layer.backgroundOpacity == 0) {
-                        //   widget.layer.backgroundOpacity = 0.5;
-                        // }
+                        widget.layer.background = Color(value);
+                        if (widget.layer.backgroundOpacity == 0) {
+                          widget.layer.backgroundOpacity = 0.5;
+                        }
 
                         widget.onUpdate();
                       });
@@ -163,8 +163,8 @@ class _ShapeLayerOverlayState extends State<ShapeLayerOverlay> {
                 TextButton(
                   onPressed: () {
                     setState(() {
-                      // widget.layer.background = Colors.transparent;
-                      // widget.layer.backgroundOpacity = 0;
+                      widget.layer.background = Colors.transparent;
+                      widget.layer.backgroundOpacity = 0;
                       widget.onUpdate();
                     });
                   },
@@ -190,11 +190,11 @@ class _ShapeLayerOverlayState extends State<ShapeLayerOverlay> {
                     min: 0,
                     max: 1,
                     divisions: 100,
-                    value: 0.80,
+                    value: widget.layer.backgroundOpacity,
                     thumbColor: Colors.white,
                     onChanged: (double value) {
                       setState(() {
-                      //  widget.layer.backgroundOpacity = value;
+                        widget.layer.backgroundOpacity = value;
                         widget.onUpdate();
                       });
                     },
@@ -203,7 +203,7 @@ class _ShapeLayerOverlayState extends State<ShapeLayerOverlay> {
                 TextButton(
                   onPressed: () {
                     setState(() {
-                     // widget.layer.backgroundOpacity = 0;
+                      widget.layer.backgroundOpacity = 0;
                       widget.onUpdate();
                     });
                   },

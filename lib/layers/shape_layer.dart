@@ -65,20 +65,31 @@ class _ShapeLayerState extends State<ShapeLayer> {
                     widget.layerData.offset.dy + detail.focalPointDelta.dy,
                   );
                 } else if (detail.pointerCount == 2) {
-                  widget.layerData.size = initialSize +
+                  final size = initialSize +
                       detail.scale * 5 * (detail.scale > 1 ? 1 : -1);
+
+                  if (size < 200) {
+                    widget.layerData.size = size;
+                  }
                   widget.layerData.rotation = detail.rotation;
                 }
+
                 setState(() {});
               }
             : null,
         child: Transform.rotate(
           angle: widget.layerData.rotation,
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: widget.layerData.background
+                  .withOpacity(widget.layerData.backgroundOpacity),
+              borderRadius: BorderRadius.circular(8),
+            ),
             child: Text(
               widget.layerData.text.toString(),
               style: TextStyle(
+                color: widget.layerData.color,
                 fontSize: widget.layerData.size,
               ),
             ),

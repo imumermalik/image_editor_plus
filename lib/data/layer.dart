@@ -4,7 +4,9 @@ import 'package:image_editor_plus/data/image_item.dart';
 /// Layer class with some common properties
 class Layer {
   Offset offset;
-  late double rotation, scale, opacity;
+  late double rotation;
+  late double scale;
+  late double opacity;
 
   Layer({
     this.offset = const Offset(64, 64),
@@ -113,10 +115,16 @@ class EmojiLayerData extends Layer {
 class ShapeLayerData extends Layer {
   String text;
   double size;
+  Color color;
+  Color background;
+  double backgroundOpacity;
 
   ShapeLayerData({
     this.text = '',
     this.size = 64,
+    this.color = Colors.white,
+    this.background = Colors.transparent,
+    this.backgroundOpacity = 0,
     super.offset,
     super.opacity,
     super.rotation,
@@ -148,7 +156,8 @@ class ShapeLayerData extends Layer {
 class TextLayerData extends Layer {
   String text;
   double size;
-  Color color, background;
+  Color color;
+  Color background;
   double backgroundOpacity;
   TextAlign align;
 
@@ -233,7 +242,8 @@ class ImageLayerData extends Layer {
 class LinkLayerData extends Layer {
   String text;
   double size;
-  Color color, background;
+  Color color;
+  Color background;
   double backgroundOpacity;
   TextAlign align;
 

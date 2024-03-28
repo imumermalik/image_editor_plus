@@ -22,7 +22,7 @@ class _ShapesState extends State<Shapes> {
             topLeft: Radius.circular(32),
             topRight: Radius.circular(32),
           ),
-          color: Colors.purpleAccent,
+          color: Colors.white,
           boxShadow: [
             BoxShadow(
               blurRadius: 10.9,
